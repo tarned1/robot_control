@@ -23,6 +23,8 @@ void turnLeft();
 void turnRight();
 void stop1();
 float getDistance();
+void servoLeft();
+bool servo();
 
 void setup() {
   Serial.begin(9600);
@@ -49,37 +51,28 @@ void loop() {
     switch(keyboard)
     {
       case 'w': case 'W':
-         forwards();
-         delay(10000);
-         break;   
+         if(servo())
+         {
+          forwards();
+          delay(2000);
+          break;
+         }
       case 's': case 'S':
          backwards();
-         delay(10000);
+         delay(2000);
          break;
      case 'a': case 'A':
         turnLeft();
-        delay(10000);
+        delay(2000);
        break;
      case 'd': case 'D':
        turnRight();
-       delay(10000);
+       delay(2000);
        break; 
      default:
         stop1();
         break;  
     }
-  }
-   for (pos = 65; pos <= 180; pos += 1) { 
-    myservo.write(pos); 
-     Serial.print("Distance: ");
-      Serial.println(getDistance());  
-    delay(100);                       // waits 15ms for the servo to reach the position
-  }
-  for (pos = 180; pos >= 65; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos); 
-    Serial.print("Distance: ");
-      Serial.println(getDistance());            
-    delay(100);                       
   }
 }
 void forwards()
@@ -128,4 +121,15 @@ float getDistance()
  duration = pulseIn(echoPin, HIGH); 
  distance = (duration*.0343)/2; 
 }
-
+bool servo()
+{
+  bool not_to_close = true; 
+  for (pos = 65; pos <= 180; pos += 1) 
+  { 
+    myservo.write(pos);
+    if(pos < 8)
+      not_to_close = false;     
+    delay(1);                       
+  }
+  return not_to_close;
+}
