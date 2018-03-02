@@ -44,6 +44,7 @@ void setup() {
 void loop() {
    
   char keyboard = '/';
+   stop1();
   if(Serial.available() > 0)
   {
     keyboard = Serial.read();
@@ -124,12 +125,20 @@ float getDistance()
 bool servo()
 {
   bool not_to_close = true; 
-  for (pos = 65; pos <= 180; pos += 1) 
+  for (pos = 60; pos <= 180; pos += 1) 
   { 
     myservo.write(pos);
-    if(pos < 8)
-      not_to_close = false;     
-    delay(1);                       
+    digitalWrite(trigPin, LOW); 
+    delayMicroseconds(2); 
+    digitalWrite(trigPin, HIGH); 
+    delayMicroseconds(10); 
+     digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH); 
+    distance = (duration*.0343)/2; 
+    if(distance < 8)
+      not_to_close = false;
+    Serial.println(distance);     
+    delay(5);                       
   }
   return not_to_close;
 }
