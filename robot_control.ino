@@ -121,6 +121,7 @@ float getDistance()
  digitalWrite(trigPin, LOW); 
  duration = pulseIn(echoPin, HIGH); 
  distance = (duration*.0343)/2; 
+ return distance;
 }
 bool servo()
 {
@@ -128,14 +129,7 @@ bool servo()
   for (pos = 60; pos <= 180; pos += 1) 
   { 
     myservo.write(pos);
-    digitalWrite(trigPin, LOW); 
-    delayMicroseconds(2); 
-    digitalWrite(trigPin, HIGH); 
-    delayMicroseconds(10); 
-     digitalWrite(trigPin, LOW);
-    duration = pulseIn(echoPin, HIGH); 
-    distance = (duration*.0343)/2; 
-    if(distance < 8)
+    if(getDistance() < 8)
       not_to_close = false;
     Serial.println(distance);     
     delay(5);                       
