@@ -52,12 +52,15 @@ void loop() {
     switch(keyboard)
     {
       case 'w': case 'W':
+      int i
+      for(i = 0;i < 2000 ;++i)
          if(servo())
          {
           forwards();
-          delay(2000);
-          break;
+          delay(1);
          }
+          if(i==2000)
+             break;
       case 's': case 'S':
          backwards();
          delay(2000);
