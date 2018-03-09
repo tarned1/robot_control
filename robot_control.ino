@@ -3,12 +3,12 @@
 Servo myservo; 
 
 float duration, distance; 
-int  ena = 13;
+int  ena = 11;
 int  in1 = 12;
-int  in2 = 11;
+int  in2 = 4;
 int  in3 = 10;
-int  in4 = 9;
-int  enb = 8;
+int  in4 = 8;
+int  enb = 9;
 int trigPin = 7; 
 int echoPin = 6;
 
@@ -44,13 +44,14 @@ void loop() {
     switch(keyboard)
     {
       case 'w': case 'W':
-      for(int analolg = 50, i = 0;i < 500 ;++i)
+      for(int i = 0;i < 500 ;++i)
       {
          if(Serial.available() > 0)
          {
+            
              keyboard = Serial.read();
              if(keyboard == 'e')
-             {
+             { 
               stop1();
               break;
              }
@@ -68,7 +69,7 @@ void loop() {
       }
        break;
       case 's': case 'S':
-        for(int i =0;i<500;++i)
+        for(int i =0;i<1000;++i)
         {
          backwards();
           if(Serial.available() > 0)
@@ -177,5 +178,5 @@ bool servo()
   if(getDistance() < 17)
   not_to_close = false;
   Serial.println(distance);     
-  return not_to_close;
+  return not_to_close; 
 }
