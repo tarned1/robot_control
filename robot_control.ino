@@ -2,20 +2,15 @@
 
 Servo myservo; 
 
-int pos = 0;    
-const int trigPin = 7; 
-const int echoPin = 6;
 float duration, distance; 
-
-
-
 int  ena = 13;
 int  in1 = 12;
 int  in2 = 11;
 int  in3 = 10;
 int  in4 = 9;
 int  enb = 8;
-
+int trigPin = 7; 
+int echoPin = 6;
 
 void forwards();
 void backwards();
@@ -25,7 +20,6 @@ void stop1();
 float getDistance();
 void servoLeft();
 bool servo();
-
 void setup() {
   Serial.begin(9600);
   pinMode(ena,OUTPUT);
@@ -34,7 +28,6 @@ void setup() {
   pinMode(in3,OUTPUT);
   pinMode(in4,OUTPUT);
   pinMode(enb,OUTPUT);
-
     myservo.attach(3);  
    pinMode(trigPin, OUTPUT); 
  pinMode(echoPin, INPUT); 
@@ -42,9 +35,8 @@ void setup() {
 }
 
 void loop() {
-   
   char keyboard = '/';
-   stop1();
+  stop1();
   if(Serial.available() > 0)
   {
     keyboard = Serial.read();
@@ -52,8 +44,7 @@ void loop() {
     switch(keyboard)
     {
       case 'w': case 'W':
-      int i;
-      for(i = 0;i < 500 ;++i)
+      for(int analolg = 50, i = 0;i < 500 ;++i)
       {
          if(Serial.available() > 0)
          {
@@ -77,7 +68,7 @@ void loop() {
       }
        break;
       case 's': case 'S':
-        for(int i =0;i<2000;++i)
+        for(int i =0;i<500;++i)
         {
          backwards();
           if(Serial.available() > 0)
@@ -93,7 +84,7 @@ void loop() {
         }
          break;
      case 'a': case 'A':
-     for(int i = 0;i < 2000;++i)
+     for(int i = 0;i < 500;++i)
      {
         turnLeft();
          if(Serial.available() > 0)
@@ -109,7 +100,7 @@ void loop() {
      }
        break;
      case 'd': case 'D':
-     for(int i = 0;i<2000;++i)
+     for(int i = 0;i<500;++i)
      {
        turnRight();
         if(Serial.available() > 0)
@@ -132,8 +123,8 @@ void loop() {
 }
 void forwards()
 {
-  digitalWrite(ena,HIGH);
-  digitalWrite(enb,HIGH);
+  digitalWrite(ena, HIGH);
+  digitalWrite(enb, HIGH);
   digitalWrite(in1,HIGH);
   digitalWrite(in2,LOW);
   digitalWrite(in4,HIGH);
