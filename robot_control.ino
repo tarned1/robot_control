@@ -52,26 +52,77 @@ void loop() {
     switch(keyboard)
     {
       case 'w': case 'W':
-      int i
-      for(i = 0;i < 2000 ;++i)
+      int i;
+      for(i = 0;i < 500 ;++i)
+      {
+         if(Serial.available() > 0)
+         {
+             keyboard = Serial.read();
+             if(keyboard == 'e')
+             {
+              stop1();
+              break;
+             }
+         }
          if(servo())
          {
           forwards();
           delay(1);
          }
-          if(i==2000)
-             break;
+         else
+         {
+          stop1();
+          break;
+         }
+      }
+       break;
       case 's': case 'S':
+        for(int i =0;i<2000;++i)
+        {
          backwards();
-         delay(2000);
+          if(Serial.available() > 0)
+         {
+             keyboard = Serial.read();
+             if(keyboard == 'e')
+             {
+             stop1();
+             break;
+            }
+          }
+           delay(1);
+        }
          break;
      case 'a': case 'A':
+     for(int i = 0;i < 2000;++i)
+     {
         turnLeft();
-        delay(2000);
+         if(Serial.available() > 0)
+        {
+           keyboard = Serial.read();
+           if(keyboard == 'e')
+           {
+            stop1();
+            break;
+           }
+        }
+        delay(1);
+     }
        break;
      case 'd': case 'D':
+     for(int i = 0;i<2000;++i)
+     {
        turnRight();
-       delay(2000);
+        if(Serial.available() > 0)
+        {
+           keyboard = Serial.read();
+           if(keyboard == 'e')
+           {
+            stop1();
+            break;
+           }
+        }
+       delay(1);
+     }
        break; 
      default:
         stop1();
@@ -99,6 +150,7 @@ void backwards()
 }
 void turnLeft()
 {
+  digitalWrite(ena,LOW);
   digitalWrite(enb,HIGH);
   digitalWrite(in4,HIGH);
   digitalWrite(in3,LOW);
@@ -106,6 +158,7 @@ void turnLeft()
 void turnRight()
 {
   digitalWrite(ena,HIGH);
+  digitalWrite(enb,LOW);
   digitalWrite(in1,HIGH);
   digitalWrite(in2,LOW);
 }
@@ -129,13 +182,9 @@ float getDistance()
 bool servo()
 {
   bool not_to_close = true; 
-  for (pos = 60; pos <= 180; pos += 1) 
-  { 
-    myservo.write(pos);
-    if(getDistance() < 8)
-      not_to_close = false;
-    Serial.println(distance);     
-    delay(5);                       
-  }
+  myservo.write(118);
+  if(getDistance() < 17)
+  not_to_close = false;
+  Serial.println(distance);     
   return not_to_close;
 }
